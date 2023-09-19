@@ -25,7 +25,8 @@ const Login=(req,res)=>{
     if(!find){
         res.status(401).send({"message":"you are not registered"});
     }
-   if(arr.password!==bodyData.password){
+    let isPassCorrect=bcrypt.compareSync(bodyData.password,arr.password);
+       if(!isPassCorrect){
     return res.send("password is incorrect");
    }
    const token= jwt.sign({email:bodyData.email},process.env.secreatKey,{expiresIn:"3600 s"});
