@@ -20,10 +20,10 @@ res.status(200).send({"message":"you are registered",
 }
 const Login=(req,res)=>{
     const bodyData=req.body;
-    if(bodyData.name.length==0)return res.send("");
+    if(bodyData.email.length==0)return res.send("");
     const find=arr.find(item=>item.email===bodyData.email);
     if(!find){
-        res.status(200).send({"message":"you are not registered"});
+        res.status(401).send({"message":"you are not registered"});
     }
    const token= jwt.sign({email:bodyData.email},process.env.secreatKey,{expiresIn:"3600 s"});
 
