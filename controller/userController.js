@@ -22,7 +22,7 @@ const Login=(req,res)=>{
     if(bodyData.email.length==0)return res.send("");
     const find=arr.find(item=>item.email===bodyData.email);
     if(!find){
-        res.status(401).send({"message":"you are not registered"});
+        res.status(200).send({"message":"you are not registered"});
     }
     let isPassCorrect=bcrypt.compareSync(bodyData.password,find.password);
     console.log(isPassCorrect);
