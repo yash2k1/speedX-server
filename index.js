@@ -13,7 +13,7 @@ app.use("/",category);
 app.get("/",(req,res)=>{
     console.log("this is blog server")
     res.send("This is blog website server");
-})
+});
 app.listen(process.env.port,()=>{
     console.log(`your server is live on ${process.env.port}`);
-})
+});
