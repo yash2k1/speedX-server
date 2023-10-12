@@ -1,7 +1,7 @@
 const jwt =require("jsonwebtoken");
 const userAuth=(req,res,next)=>{
 const bearer=req.headers["authorization"];
-if(bearer==undefined){
+if(bearer===undefined){
     return res.status(401).send("no token");
 }
 const token=bearer.split(" ")[1];
