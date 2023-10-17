@@ -1,4 +1,4 @@
-// users.create({
+// customers.create({
 //     name:req.body.name,
 //     phoneNo:req.body.phoneNo,
 //     email:req.body.email,
@@ -6,20 +6,20 @@
 // })
 const bcrypt=require("bcrypt");
 const jwt =require("jsonwebtoken");
-const users =require("../models/RegistrationModel")
+const customers =require("../models/RegistrationModel")
 let saltRound=10;
 // let secreateKey="fvsdsd";
-const call=(req,res)=>{
-    users.collection.dropIndex({phoneNo:1},(err,result)=>{
-       if(err) console.log(err)
-       else console.log(result)
-    })
-}
+// const call=(req,res)=>{
+//     customers.collection.dropIndex({phoneNo:1},(err,result)=>{
+//        if(err) console.log(err)
+//        else console.log(result)
+//     })
+// }
 const Register=async (req,res)=>{
    try{ 
     const bodyData=req.body;
 if(bodyData.name.length==0)return res.send("");
-    const find=await users.findOne({email:bodyData.email});
+    const find=await customers.findOne({email:bodyData.email});
     console.log("nice",find)
 
     if(find){
@@ -28,9 +28,9 @@ return res.status(200).send({"message":"your already registered"});
 
     let originalPassword=bodyData.password;
     const encryptedPassword=bcrypt.hashSync(originalPassword,saltRound);
-    users.create({...bodyData,password:encryptedPassword});
+   const newUser=await customers.create({...bodyData,password:encryptedPassword});
    const token= jwt.sign({email:bodyData.email},process.env.secreatKey,{expiresIn:"3600 s"});
-res.status(200).send({"message":"you are registered",
+res.status(200).send({"message":"user is created","msg":newUser,
 "token":token});
 }
 catch(err){
@@ -42,7 +42,7 @@ const Login=async (req,res)=>{
    try{
      const bodyData=req.body;
     if(bodyData.email.length==0)return res.send("");
-    const find=await users.findOne({email:bodyData.email});
+    const find=await customers.findOne({email:bodyData.email});
     console.log(find)
     if(!find){
        return res.status(200).send({"message":"you are not registered"});
@@ -55,7 +55,7 @@ const Login=async (req,res)=>{
    const token= jwt.sign({email:bodyData.email},process.env.secreatKey,{expiresIn:"3600 s"});
 
     res.status(200).send({"message":`your are Login `,
-"token":token});
+"token":token,"name":find.name,"id":find._id});
 }
 catch(err){
     console.log(err);

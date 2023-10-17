@@ -37,7 +37,7 @@ const findCategory=async(req,res)=>{
       // checking is there is any filer on the category or not
 if(req.query.sortBy){
     req.query.sortBy==="rating"&&subCategoryData
-    .sort( (a,b)=> a.rating-b.rating);
+    .sort( (a,b)=> b.rating-a.rating);
     req.query.sortBy==="priceHtoL"&&subCategoryData
     .sort( (a,b)=> b.price-a.price);
     req.query.sortBy==="priceLtoH"&&subCategoryData
@@ -52,6 +52,23 @@ catch(err){
     res.status(500).send({"msg":"Error in geting data"})
 }
  }
+//  find by regex 
+const findByRegex=async(req,res)=>{
+    try{
+        const title=req.params.title;
+        const regex=new RegExp(title,'i');
+        // const regex=`/^p/i`;
+        console.log(title)
+        const productData= await product.find({"title":{ $regex:regex }});
+        console.log("productData",productData)
+     res.status(200).send({"msg":productData})
+    }
+catch(err){
+    console.log("call err",err)
+    res.status(500).send({"msg":err})
+}
+ }
+
  //  find by id (one product at a time)
 const findOneProduct=async(req,res)=>{
     try{
@@ -70,5 +87,6 @@ catch(err){
 module.exports={
     findOneProduct,
     findCategory,
-    uniqueSubCategory
+    uniqueSubCategory,
+    findByRegex
 };
