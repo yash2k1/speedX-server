@@ -13,19 +13,19 @@ async function changestocart(req, res) {
             return  res.status(200).send({ msg: "user not found" })
         }
         // clear whole cart
-        console.log("product",productId)
-        if(productId=="clear"){
-          const deleteCart=await customers.findByIdAndUpdate(userId,{...user,"cart":[]})
+        if(productId==="clear"){
+          console.log("clear",productId,"clean");
+          const deleteCart=await customers.findByIdAndUpdate(userId,{cart:[]});
           user.save();
         return res.status(200).send({msg:"cart is empty",user:user,"deleted":deleteCart});
            } 
     const ProductData = await Product.findById(productId);    
        
        if (!ProductData) {
-            console.log('Productnotfound',productId)
+            // console.log('Productnotfound',productId)
             return  res.status(200).send({ msg: "Product not found" })
         }
-console.log("Product",ProductData);
+// console.log("Product",ProductData);
         const cartItemIndex = user.cart.findIndex((item) => item.product.equals(productId))
         let result;
         if (cartItemIndex===-1){
