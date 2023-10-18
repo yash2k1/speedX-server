@@ -76,6 +76,7 @@ async function getCart(req,res){
         res.status(500).send({msg:"err"});
     }
 }
+
 // // place order
 // app.post("/api/orders", async (req, res) => {
 //   try {
