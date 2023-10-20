@@ -22,8 +22,8 @@ const checkout =async(req,res)=>{
                 payment_method_types:["card"],
                 line_items:lineItems,
                 mode:"payment",
-                success_url:"http://localhost:5173/sucess"||"https://speedx-yash.netlify.app/sucess",
-                cancel_url:"http://localhost:5173/cancel"||"https://speedx-yash.netlify.app/cancel",
+                success_url:"https://speedx-yash.netlify.app/sucess",
+                cancel_url:"https://speedx-yash.netlify.app/cancel",
             });
         
             res.json({id:session.id})
